@@ -37,7 +37,7 @@ No browser details and no IP addresses are stored (`capture-metadata: false`).
   1. Never Commit Alone: Git und GitHub mit KI, ohne KI und mit anderen
   2. Selbst entscheiden, offen arbeiten: Git und GitHub für deine Projekte
   3. Gemeinsam nachvollziehbar: Git und GitHub mit und ohne KI
-- **Contact address.** `lars@lse.de` in the welcome text and the consent is a placeholder until Lars confirms it.
+- **Contact address.** `lars@lse.de` in the welcome text and the consent, confirmed by Lars on 2026-10-22.
 - **Time slots (placeholders).** The course has two online sessions of two hours. Participants tick at least two slots that work for them (enforced in `app.R`), or only "Keiner dieser Termine passt" plus a note on other times. Lars picks the two slots that suit most people. Both sessions are over before 11 December 2026. All slots are Monday to Thursday, 20:00 to 22:00. They avoid RDC (19 and 20 November), the EnhanceR symposium (30 November) and SwissRN in Bellinzona (10 December). Lars confirms them:
   - Dienstag, 17. November 2026
   - Montag, 23. November 2026

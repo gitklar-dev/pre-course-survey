@@ -60,7 +60,7 @@ survey-settings:
 
 # surveydown's German messages use "Sie". These override them with "du".
 system-messages:
-  sure-exit: Möchtest du die Umfrage wirklich beenden?
+  sure-exit: Möchtest du das Fenster schliessen? Deine Antworten sind schon gespeichert.
   required: Bitte beantworte alle Pflichtfragen, bevor du weitermachst.
   rating-title: Bevor du gehst ...
   rating-text: 'Wie fandest du die Umfrage?'
@@ -419,7 +419,7 @@ sd_question(
 
 ## Danke
 
-Deine Antworten sind gespeichert. Ich melde mich nach dem 30. Oktober 2026 mit den Terminen für die zwei Workshops.
+Deine Antworten sind gespeichert. Ich melde mich nach dem 30. Oktober 2026 mit den Terminen für die zwei Workshops. Du kannst das Fenster jetzt schliessen, mit dem Knopf unten oder direkt im Browser.
 
 ```{r}
 sd_close()
