@@ -1,0 +1,40 @@
+/*-- scss:defaults --*/
+
+// Neutral theme for gitklar. No GHE or ETH colours.
+
+@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@200..800&display=swap';
+
+$font-family-sans-serif: "Atkinson Hyperlegible Next", sans-serif;
+$font-family-base: $font-family-sans-serif;
+// litera sets paragraph text in a serif face. Question labels are paragraphs.
+$font-family-serif: $font-family-sans-serif;
+
+$gk-teal: #1F4E5F;
+$gk-gray: #555555;
+
+$body-color: #1e1e1e;
+$body-bg: #f6f6f4;
+$primary: $gk-teal;
+$secondary: $gk-gray;
+$link-color: $gk-teal;
+
+/*-- scss:rules --*/
+
+// surveydown loads its stylesheet after this one, so overrides carry one
+// extra class of specificity.
+html:root {
+  --body-background-color: #{$body-bg};
+}
+
+h1, h2, h3 {
+  color: $gk-teal;
+}
+
+.question-container .form-group {
+  background-color: #ffffff;
+  border-color: #dddddd;
+}
+
+.footer {
+  color: $gk-gray;
+}
