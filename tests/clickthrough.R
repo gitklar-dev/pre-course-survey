@@ -141,12 +141,18 @@ check(go_next("ziele", "#termin_next"), "ziele -> termin (retreat_work optional)
 
 # Page termin
 check(no_duplicate_ids(), "termin: no duplicate ids")
+check(blocked("termin"), "no slot blocks Next")
 pick("slots", "2026-11-17_2000")
-pick("slots", "2026-12-01_2000")
+check(blocked("termin"), "one slot only blocks Next")
+pick("slots", "2026-11-17_2000")
 pick("slots", "none")
+check(blocked("termin"), "'Keiner passt' alone with an empty note blocks Next")
+set_text("slots_note", "Testantwort: Montags ab 20 Uhr")
+pick("slots", "2026-11-17_2000")
 check(blocked("termin"), "'Keiner passt' plus a slot blocks Next")
 pick("slots", "none")
-check(go_next("termin", "#einwilligung_next"), "termin -> einwilligung (slots_note optional)")
+pick("slots", "2026-12-01_2000")
+check(go_next("termin", "#einwilligung_next"), "two slots pass to einwilligung")
 
 # Page einwilligung
 check(no_duplicate_ids(), "einwilligung: no duplicate ids")

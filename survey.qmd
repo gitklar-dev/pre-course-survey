@@ -100,10 +100,10 @@ opts_slots <- c(
 # Five nested levels of AI use, from the toolset part of the AI Retreat
 # deep-dive of 16 October 2026 (arti-vault wiki/reference/ai-retreat-bayern-2026).
 ai_levels <- c(
-  chat       = "Stufe 1, Chat: Du stellst Fragen in einem Chatfenster, zum Beispiel in ChatGPT oder Claude.",
-  context    = "Stufe 2, Kontext: Du gibst der KI eigene Dateien mit Hintergrundwissen mit, zum Beispiel Markdown-Dateien in einem Obsidian-Ordner auf deinem Laptop.",
-  connectors = "Stufe 3, Verbindungen: Die KI greift direkt auf andere Werkzeuge zu, zum Beispiel auf deinen Kalender, deine E-Mails oder Notion.",
-  skills     = "Stufe 4, Skills: Du hast Rezepte gespeichert, die die KI immer wieder gleich ausführt, wie in einem Kochbuch.",
+  chat       = "Stufe 1, Chat: Du schreibst der KI Fragen in einem Chat, zum Beispiel in ChatGPT oder Claude.",
+  context    = "Stufe 2, Kontext: Du gibst der KI zusätzlich eigene Dateien mit, damit sie mehr über deine Aufgabe weiss. Das Format ist egal, zum Beispiel ein PDF, ein Word-Dokument oder eine Excel-Tabelle.",
+  connectors = "Stufe 3, Verbindungen: Die KI darf direkt in anderen Programmen nachsehen, zum Beispiel in deinem Kalender oder deinen E-Mails.",
+  skills     = "Stufe 4, Skills: Du hast feste Anleitungen gespeichert, die die KI immer wieder gleich ausführt, wie Rezepte in einem Kochbuch.",
   routines   = "Stufe 5, Routinen: Die KI arbeitet von selbst los, wenn etwas passiert, zum Beispiel jeden Morgen um 7 Uhr oder bei jeder neuen E-Mail."
 )
 ```
@@ -116,7 +116,7 @@ Danke, dass du dich für den Kurs interessierst. Darin lernst du Git und GitHub 
 
 Die erste Runde ist ein kostenloser Testlauf. Im Gegenzug wünsche ich mir viele Rückmeldungen von dir.
 
-Die Umfrage dauert etwa 10 Minuten. Bitte fülle sie bis `r survey_due` aus. Mit deinen Antworten passe ich den Kurs an das an, was du schon nutzt und kannst. Am Ende fragt die Umfrage nach Terminen für die zwei Online-Sitzungen.
+Die Umfrage dauert etwa 10 Minuten. Bitte fülle sie bis `r survey_due` aus. Mit deinen Antworten passe ich den Kurs an das an, was du schon nutzt und kannst. Am Ende fragt die Umfrage nach Terminen für die zwei Online-Workshops.
 
 Fragen? Schreib mir an `r contact`.
 
@@ -243,7 +243,7 @@ sd_question(
 sd_question(
   type   = "mc",
   id     = "second_brain",
-  label  = "Hast du schon ein «zweites Gehirn»?<br>*Damit ist eine eigene Sammlung von Notizen und Wissen gemeint, die du laufend pflegst und verknüpfst, zum Beispiel in Obsidian oder Notion.*",
+  label  = "Hast du schon ein Second Brain?<br>*Damit ist eine eigene Sammlung von Notizen und Wissen gemeint, die du laufend pflegst und verknüpfst, zum Beispiel in Obsidian oder Notion.*",
   option = c(
     "Ja, ich pflege eins"                    = "yes",
     "Ich baue gerade eins auf"               = "building",
@@ -280,9 +280,9 @@ sd_question(
 sd_question(type = "text", id = "ai_level_chat_tool",
   label = "Stufe 1, Chat: Mit welchem Werkzeug?")
 sd_question(type = "text", id = "ai_level_context_tool",
-  label = "Stufe 2, Kontext: Mit welchem Werkzeug?")
+  label = "Stufe 2, Kontext: Mit welchem Werkzeug, und welche Art von Dateien gibst du mit?")
 sd_question(type = "text", id = "ai_level_connectors_tool",
-  label = "Stufe 3, Verbindungen: Mit welchem Werkzeug, und mit welchen Diensten verbunden?")
+  label = "Stufe 3, Verbindungen: Mit welchem Werkzeug, und mit welchen Programmen verbunden?")
 sd_question(type = "text", id = "ai_level_skills_tool",
   label = "Stufe 4, Skills: Mit welchem Werkzeug?")
 sd_question(type = "text", id = "ai_level_routines_tool",
@@ -362,34 +362,34 @@ sd_question(
 sd_question(
   type  = "textarea",
   id    = "learning_goals",
-  label = "Was möchtest du nach dem Kurs wissen oder können, das du heute noch nicht weisst oder kannst?"
+  label = "Was möchtest du nach diesem Git- und GitHub-Kurs wissen oder können, das du heute noch nicht weisst oder kannst?"
 )
 
 sd_question(
   type  = "textarea",
   id    = "use_case",
-  label = "An welchem eigenen Projekt möchtest du im Kurs arbeiten?<br>*Zum Beispiel ein Lebenslauf, der aus deinen Daten entsteht, eine eigene Website, eine Sammlung von Notizen oder ein Text, den du mit anderen schreibst. Eine grobe Idee reicht. Ich zeige im Kurs einige dieser Projekte als Beispiele.*"
+  label = "An welchem eigenen Projekt möchtest du in diesem Git- und GitHub-Kurs arbeiten?<br>*Zum Beispiel ein Lebenslauf, der aus deinen Daten entsteht, eine eigene Website, eine Sammlung von Notizen oder ein Text, den du mit anderen schreibst. Eine grobe Idee reicht. Ich zeige im Kurs einige dieser Projekte als Beispiele.*"
 )
 ```
 
 --- termin
 
-## Termine für die Online-Sitzungen
+## Termine für die zwei Workshops
 
-Der Kurs hat zwei Online-Sitzungen von je zwei Stunden, jeweils am Abend auf Zoom. Für Übungen arbeiten wir in kleinen Gruppen.
+Der Kurs hat zwei Online-Workshops von je zwei Stunden, jeweils am Abend auf Zoom. Für Übungen arbeiten wir in kleinen Gruppen.
 
 ```{r}
 sd_question(
   type   = "mc_multiple",
   id     = "slots",
-  label  = "Welche Termine passen dir? Kreuze alle an, die für dich gehen.<br>*Ich wähle daraus die zwei Termine, an denen die meisten können.*",
+  label  = "Es gibt zwei Workshops von je zwei Stunden. Kreuze mindestens zwei Termine an, die für dich gehen. Gern auch mehr.<br>*Ich wähle daraus die zwei Termine, an denen die meisten können. Passt dir keiner, kreuze nur «Keiner dieser Termine passt» an und schreib unten, wann es dir geht.*",
   option = opts_slots
 )
 
 sd_question(
   type  = "textarea",
   id    = "slots_note",
-  label = "Wann passt es dir sonst? (freiwillig)<br>*Zum Beispiel Wochentage oder Tageszeiten, die gut gehen.*"
+  label = "Wann passt es dir sonst?<br>*Freiwillig. Nur wenn keiner der Termine passt, ist dieses Feld nötig. Zum Beispiel Wochentage oder Tageszeiten, die gut gehen.*"
 )
 ```
 
@@ -419,7 +419,7 @@ sd_question(
 
 ## Danke
 
-Deine Antworten sind gespeichert. Ich melde mich nach dem 30. Oktober 2026 mit den Terminen für die zwei Sitzungen.
+Deine Antworten sind gespeichert. Ich melde mich nach dem 30. Oktober 2026 mit den Terminen für die zwei Workshops.
 
 ```{r}
 sd_close()

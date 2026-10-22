@@ -26,7 +26,7 @@ The survey is in German, informal (du), and takes about 10 minutes. It has 15 re
 | ziele | `retreat_work` (optional) | Was am AI Retreat gemacht und gelernt, Miro-Texte willkommen | new |
 | ziele | `learning_goals` | Was du nach dem Kurs wissen oder können willst | ds4owd and agentsforsci `learning_goals` |
 | ziele | `use_case` | Eigenes Projekt für den Kurs | new, loosely after ds4owd `data_availability` |
-| termin | `slots`, `slots_note` (optional) | Alle passenden Termine für die zwei Sitzungen | new |
+| termin | `slots`, `slots_note` (required only with "Keiner passt") | Mindestens zwei passende Termine für die zwei Workshops | new |
 | einwilligung | `consent` | Einwilligung | agentsforsci `consent` and ds4owd `data_privacy`, adapted |
 
 No browser details and no IP addresses are stored (`capture-metadata: false`).
@@ -38,7 +38,7 @@ No browser details and no IP addresses are stored (`capture-metadata: false`).
   2. Selbst entscheiden, offen arbeiten: Git und GitHub für deine Projekte
   3. Gemeinsam nachvollziehbar: Git und GitHub mit und ohne KI
 - **Contact address.** `lars@lse.de` in the welcome text and the consent is a placeholder until Lars confirms it.
-- **Time slots (placeholders).** The course has two online sessions of two hours. Participants tick every slot that works for them, and Lars picks the two slots that suit most people. Both sessions are over before 11 December 2026. All slots are Monday to Thursday, 20:00 to 22:00. They avoid RDC (19 and 20 November), the EnhanceR symposium (30 November) and SwissRN in Bellinzona (10 December). Lars confirms them:
+- **Time slots (placeholders).** The course has two online sessions of two hours. Participants tick at least two slots that work for them (enforced in `app.R`), or only "Keiner dieser Termine passt" plus a note on other times. Lars picks the two slots that suit most people. Both sessions are over before 11 December 2026. All slots are Monday to Thursday, 20:00 to 22:00. They avoid RDC (19 and 20 November), the EnhanceR symposium (30 November) and SwissRN in Bellinzona (10 December). Lars confirms them:
   - Dienstag, 17. November 2026
   - Montag, 23. November 2026
   - Donnerstag, 26. November 2026
@@ -56,7 +56,7 @@ QUARTO_PATH=/Applications/RStudio.app/Contents/Resources/app/quarto/bin/quarto \
   Rscript -e 'shiny::runApp("app.R", port = 8765, launch.browser = FALSE)'
 ```
 
-Test answers go to `preview_data.csv`, which is git-ignored. surveydown re-renders the survey only when `survey.qmd`, a YAML file or `app.R` changes. After an edit to `custom.scss` alone, touch `survey.qmd`.
+Test answers go to `preview_data.csv`, which is git-ignored. In preview mode `app.R` does not call `sd_db_connect()`, so a local run never touches the database, even when `.env` holds real credentials. surveydown re-renders the survey only when `survey.qmd`, a YAML file or `app.R` changes. After an edit to `custom.scss` alone, touch `survey.qmd`.
 
 After any change to `survey.qmd`, open one throwaway session first. The session that re-parses the file does not restore answers on Previous.
 
