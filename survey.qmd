@@ -16,7 +16,7 @@ theme-settings:
 survey-settings:
   # "preview" saves test answers to preview_data.csv (git-ignored).
   # Switch to "database" only after the Supabase table is set up.
-  mode: preview
+  mode: database
   show-previous: true
   use-cookies: true
   auto-scroll: false
