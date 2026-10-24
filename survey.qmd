@@ -1,0 +1,426 @@
+---
+# Survey configuration.
+# All available settings are documented at https://surveydown.org
+# and listed in _survey/settings.yml after the first render.
+#
+# Built after agentsforsci-dev/pre-course-survey (2026-10-22).
+# Course gitklar, participant org gitklar-airetreat (AI Retreat participants).
+
+theme-settings:
+  theme: [litera, custom.scss]
+  barposition: top
+  barcolor: "#1F4E5F"
+  footer-left: "Lars Schöbitz GmbH. Erstellt mit [surveydown](https://surveydown.org), Lizenz [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)"
+  footer-right: "[Quellcode](https://github.com/gitklar-dev/pre-course-survey)"
+
+survey-settings:
+  # "preview" saves test answers to preview_data.csv (git-ignored).
+  # Switch to "database" only after the Supabase table is set up.
+  mode: database
+  show-previous: true
+  use-cookies: true
+  auto-scroll: false
+  rate-survey: false
+  system-language: de
+  highlight-unanswered: false
+  highlight-color: blue
+  # false: no browser string and no IP address are stored with a response
+  capture-metadata: false
+  # Questions are listed one by one rather than with all-required, so that
+  # text fields shown with sd_show_if() are only enforced while visible
+  # (see the surveydown gotchas). github_username is only enforced when
+  # github_account is "yes".
+  all-required: false
+  required:
+    - email
+    - os
+    - os_other
+    - ai_tools
+    - ai_tools_other
+    - writing_tools
+    - writing_tools_other
+    - todo_place
+    - todo_place_other
+    - second_brain
+    - ai_levels
+    - ai_level_chat_tool
+    - ai_level_context_tool
+    - ai_level_connectors_tool
+    - ai_level_skills_tool
+    - ai_level_routines_tool
+    - prog_general
+    - cli_usage
+    - git_experience
+    - github_account
+    - github_username
+    - learning_goals
+    - use_case
+    - slots
+    - consent
+
+# surveydown's German messages use "Sie". These override them with "du".
+system-messages:
+  sure-exit: Möchtest du das Fenster schliessen? Deine Antworten sind schon gespeichert.
+  required: Bitte beantworte alle Pflichtfragen, bevor du weitermachst.
+  rating-title: Bevor du gehst ...
+  rating-text: 'Wie fandest du die Umfrage?'
+  close-tab: Bitte schliesse diesen Tab selbst, um die Umfrage zu beenden.
+  warning: Hinweis
+---
+
+```{r}
+library(surveydown)
+
+# Course values. Edit these for the next survey round.
+course_name  <- "gitklar"
+group        <- "airetreat"                     # participant org gitklar-airetreat, table gitklar_airetreat_2026_10
+course_title <- "Git und GitHub: Einführungskurs" # working title, options in README
+survey_due   <- "Freitag, 30. Oktober 2026"
+organiser    <- "Lars Schöbitz GmbH"
+instructor   <- "Lars Schöbitz"
+contact      <- "lars@lse.de"                   # PLATZHALTER: course contact address, Lars confirms
+
+# Time slots for the two online sessions (Zoom, two hours each).
+# ALL SLOTS ARE PLATZHALTER. Lars confirms them against his calendars.
+# Both sessions must be over before 11 December 2026. Window mid November
+# to Wednesday 9 December 2026, Monday to Thursday, 20:00 to 22:00 only.
+# Avoided: RDC (19 and 20 November), EnhanceR symposium (Monday 30
+# November), SwissRN Bellinzona (Thursday 10 December).
+# Weekdays checked against the 2026 calendar.
+opts_slots <- c(
+  "Dienstag, 17. November 2026, 20:00 bis 22:00 Uhr"   = "2026-11-17_2000",
+  "Montag, 23. November 2026, 20:00 bis 22:00 Uhr"     = "2026-11-23_2000",
+  "Donnerstag, 26. November 2026, 20:00 bis 22:00 Uhr" = "2026-11-26_2000",
+  "Dienstag, 1. Dezember 2026, 20:00 bis 22:00 Uhr"    = "2026-12-01_2000",
+  "Donnerstag, 3. Dezember 2026, 20:00 bis 22:00 Uhr" = "2026-12-03_2000",
+  "Mittwoch, 9. Dezember 2026, 20:00 bis 22:00 Uhr"    = "2026-12-09_2000",
+  "Keiner dieser Termine passt"                        = "none"
+)
+
+# Five nested levels of AI use, from the toolset part of the AI Retreat
+# deep-dive of 16 October 2026 (arti-vault wiki/reference/ai-retreat-bayern-2026).
+ai_levels <- c(
+  chat       = "Stufe 1, Chat: Du schreibst der KI Fragen in einem Chat, zum Beispiel in ChatGPT oder Claude.",
+  context    = "Stufe 2, Kontext: Du gibst der KI zusätzlich eigene Dateien mit, damit sie mehr über deine Aufgabe weiss. Das Format ist egal, zum Beispiel ein PDF, ein Word-Dokument oder eine Excel-Tabelle.",
+  connectors = "Stufe 3, Verbindungen: Die KI darf direkt in anderen Programmen nachsehen, zum Beispiel in deinem Kalender oder deinen E-Mails.",
+  skills     = "Stufe 4, Skills: Du hast feste Anleitungen gespeichert, die die KI immer wieder gleich ausführt, wie Rezepte in einem Kochbuch.",
+  routines   = "Stufe 5, Routinen: Die KI arbeitet von selbst los, wenn etwas passiert, zum Beispiel jeden Morgen um 7 Uhr oder bei jeder neuen E-Mail."
+)
+```
+
+--- start
+
+# `r course_title`: Umfrage vor dem Kurs
+
+Danke, dass du dich für den Kurs interessierst. Darin lernst du Git und GitHub kennen. Wir richten alles auf deinem Laptop ein, machen die ersten Schritte und arbeiten dann gemeinsam an Projekten.
+
+Die erste Runde ist ein kostenloser Testlauf. Im Gegenzug wünsche ich mir viele Rückmeldungen von dir.
+
+Die Umfrage dauert etwa 10 Minuten. Bitte fülle sie bis `r survey_due` aus. Mit deinen Antworten passe ich den Kurs an das an, was du schon nutzt und kannst. Am Ende fragt die Umfrage nach Terminen für die zwei Online-Workshops.
+
+Fragen? Schreib mir an `r contact`.
+
+`r instructor`, `r organiser`
+
+--- ueber_dich
+
+## Über dich
+
+```{r}
+sd_question(
+  type  = "text",
+  id    = "email",
+  label = "Deine E-Mail-Adresse<br>*Damit ich dich zum Kurs einladen und dir die Termine schicken kann.*"
+)
+
+sd_question(
+  type   = "mc",
+  id     = "os",
+  label  = "Welches Betriebssystem hat der Laptop, mit dem du am Kurs teilnimmst?",
+  option = c(
+    "macOS (Apple)"     = "macos",
+    "Windows"           = "windows",
+    "Linux"             = "linux",
+    "Ein anderes"       = "other",
+    "Ich weiss es nicht" = "dont_know"
+  )
+)
+
+sd_question(
+  type  = "text",
+  id    = "os_other",
+  label = "Welches andere Betriebssystem?"
+)
+```
+
+--- werkzeuge
+
+## Deine Werkzeuge heute
+
+```{r}
+sd_question(
+  type   = "mc_multiple",
+  id     = "ai_tools",
+  label  = "Welche KI-Werkzeuge nutzt du? (mehrere Antworten möglich)",
+  option = c(
+    "ChatGPT (OpenAI)"                                  = "chatgpt",
+    "Claude (Anthropic)"                                = "claude",
+    "Claude Code (Anthropic)"                           = "claude_code",
+    "Microsoft Copilot (in Windows, Edge, Teams oder Microsoft 365)" = "copilot_365",
+    "GitHub Copilot"                                    = "copilot_ide",
+    "Le Chat (Mistral)"                                 = "le_chat",
+    "Gemini (Google)"                                   = "gemini",
+    "NotebookLM (Google)"                               = "notebooklm",
+    "Perplexity"                                        = "perplexity",
+    "DeepSeek"                                          = "deepseek",
+    "Cursor"                                            = "cursor",
+    "DeepL (Übersetzen, DeepL Write)"                   = "deepl",
+    "KI in Notion (Notion AI)"                          = "notion_ai",
+    "Automationen mit KI (zum Beispiel Make, n8n, Zapier)" = "automation",
+    "Lokale Modelle (zum Beispiel Ollama, LM Studio)"   = "local_models",
+    "Andere"                                            = "other",
+    "Keine"                                             = "none"
+  )
+)
+
+sd_question(
+  type  = "text",
+  id    = "ai_tools_other",
+  label = "Welche anderen KI-Werkzeuge?"
+)
+
+sd_question(
+  type   = "mc_multiple",
+  id     = "writing_tools",
+  label  = "Womit schreibst du Texte und Notizen? (mehrere Antworten möglich)",
+  option = c(
+    "Microsoft Word"                                = "word",
+    "Google Docs"                                   = "google_docs",
+    "Notion"                                        = "notion",
+    "Obsidian"                                      = "obsidian",
+    "Logseq"                                        = "logseq",
+    "Microsoft OneNote"                             = "onenote",
+    "Apple Notizen"                                 = "apple_notes",
+    "Evernote"                                      = "evernote",
+    "Ein Markdown-Editor (zum Beispiel Typora, iA Writer)" = "markdown_editor",
+    "Ein Code-Editor (zum Beispiel VS Code, RStudio, Positron)" = "code_editor",
+    "Papier"                                        = "paper",
+    "Andere"                                        = "other"
+  )
+)
+
+sd_question(
+  type  = "text",
+  id    = "writing_tools_other",
+  label = "Welche anderen Werkzeuge?"
+)
+
+sd_question(
+  type   = "mc_multiple",
+  id     = "todo_place",
+  label  = "Wo hältst du deine Aufgaben (TODOs) heute fest? (mehrere Antworten möglich)",
+  option = c(
+    "Auf Papier oder Haftnotizen"                       = "paper",
+    "Im Kalender"                                       = "calendar",
+    "In E-Mails (zum Beispiel markiert in Outlook oder Gmail)" = "email",
+    "In einer Aufgaben-App (zum Beispiel Todoist, Microsoft To Do, Apple Erinnerungen)" = "todo_app",
+    "In einem Projekt-Werkzeug (zum Beispiel Asana, Trello, Planner, Jira)" = "project_tool",
+    "In Notion"                                         = "notion",
+    "In Obsidian oder Logseq"                           = "obsidian_logseq",
+    "In einer Tabelle (zum Beispiel Excel)"             = "spreadsheet",
+    "In GitHub Issues"                                  = "github_issues",
+    "Im Kopf"                                           = "head",
+    "Woanders"                                          = "other"
+  )
+)
+
+sd_question(
+  type  = "text",
+  id    = "todo_place_other",
+  label = "Wo sonst?"
+)
+
+sd_question(
+  type   = "mc",
+  id     = "second_brain",
+  label  = "Hast du schon ein Second Brain?<br>*Damit ist eine eigene Sammlung von Notizen und Wissen gemeint, die du laufend pflegst und verknüpfst, zum Beispiel in Obsidian oder Notion.*",
+  option = c(
+    "Ja, ich pflege eins"                    = "yes",
+    "Ich baue gerade eins auf"               = "building",
+    "Nein, aber es interessiert mich"        = "no_interested",
+    "Nein, und ich brauche keins"            = "no",
+    "Ich weiss nicht, was damit gemeint ist" = "dont_know"
+  )
+)
+
+sd_question(
+  type  = "text",
+  id    = "second_brain_tool",
+  label = "Womit? (freiwillig)"
+)
+```
+
+--- ki_stufen
+
+## Wie du mit KI arbeitest
+
+Am AI Retreat haben wir fünf Stufen der KI-Nutzung besprochen. Jede Stufe baut auf der vorherigen auf.
+
+```{r}
+sd_question(
+  type   = "mc_multiple",
+  id     = "ai_levels",
+  label  = "Welche dieser Stufen nutzt du heute? (mehrere Antworten möglich)",
+  option = c(
+    setNames(names(ai_levels), ai_levels),
+    "Keine davon" = "none"
+  )
+)
+
+sd_question(type = "text", id = "ai_level_chat_tool",
+  label = "Stufe 1, Chat: Mit welchem Werkzeug?")
+sd_question(type = "text", id = "ai_level_context_tool",
+  label = "Stufe 2, Kontext: Mit welchem Werkzeug, und welche Art von Dateien gibst du mit?")
+sd_question(type = "text", id = "ai_level_connectors_tool",
+  label = "Stufe 3, Verbindungen: Mit welchem Werkzeug, und mit welchen Programmen verbunden?")
+sd_question(type = "text", id = "ai_level_skills_tool",
+  label = "Stufe 4, Skills: Mit welchem Werkzeug?")
+sd_question(type = "text", id = "ai_level_routines_tool",
+  label = "Stufe 5, Routinen: Mit welchem Werkzeug?")
+```
+
+--- erfahrung
+
+## Deine Erfahrung
+
+```{r}
+sd_question(
+  type   = "mc",
+  id     = "prog_general",
+  label  = "Wie viel Erfahrung hast du mit Programmieren?",
+  option = c(
+    "Keine"                                              = "none",
+    "Ich habe ein paar Zeilen Code geschrieben"           = "few_lines",
+    "Ich habe Programme für mich selbst geschrieben"      = "own_use",
+    "Ich habe grössere Software geschrieben und gepflegt" = "maintained"
+  )
+)
+
+sd_question(
+  type   = "mc",
+  id     = "cli_usage",
+  label  = "Wie oft nutzt du das Terminal?<br>*Das Terminal ist ein Fenster, in das du Befehle tippst. Auf dem Mac heisst die App Terminal, unter Windows Windows Terminal oder PowerShell.*",
+  option = c(
+    "Noch nie"                                                          = "never",
+    "Selten, für kleine Dinge (zum Beispiel einen Befehl aus einer Anleitung kopieren)" = "occasional",
+    "Regelmässig, für meine eigenen Projekte"                          = "regular",
+    "Oft und für Fortgeschrittenes (zum Beispiel Skripte, SSH)"         = "extensive"
+  )
+)
+
+sd_question(
+  type   = "mc",
+  id     = "git_experience",
+  label  = "Welche Erfahrung hast du mit Git?<br>*Git speichert jede Version deiner Dateien, damit du Änderungen nachverfolgen und zurücknehmen kannst.*",
+  option = c(
+    "Ich habe Git noch nie genutzt"                     = "never",
+    "Selten, für erste Schritte"                       = "occasional",
+    "Regelmässig, für meine eigenen Projekte"          = "regular",
+    "Oft, auch zusammen mit anderen"                   = "extensive"
+  )
+)
+
+sd_question(
+  type   = "mc",
+  id     = "github_account",
+  label  = "Hast du schon ein Konto bei GitHub?",
+  option = c(
+    "Ja"                 = "yes",
+    "Nein"               = "no",
+    "Ich weiss es nicht" = "dont_know"
+  )
+)
+
+sd_question(
+  type  = "text",
+  id    = "github_username",
+  label = "Dein GitHub-Benutzername<br>*Ohne das @. Du findest ihn oben rechts auf github.com, wenn du angemeldet bist.*"
+)
+```
+
+--- ziele
+
+## Was du vom Kurs willst
+
+```{r}
+sd_question(
+  type  = "textarea",
+  id    = "retreat_work",
+  label = "Was hast du am AI Retreat gemacht und gelernt? (freiwillig)<br>*Zum Beispiel dein eigenes Projekt und was du gebaut hast. Du kannst auch einfügen, was du auf die Miro-Boards des Retreats geschrieben hast. Warst du nicht dabei, lass das Feld leer.*"
+)
+
+sd_question(
+  type  = "textarea",
+  id    = "learning_goals",
+  label = "Was möchtest du nach diesem Git- und GitHub-Kurs wissen oder können, das du heute noch nicht weisst oder kannst?"
+)
+
+sd_question(
+  type  = "textarea",
+  id    = "use_case",
+  label = "An welchem eigenen Projekt möchtest du in diesem Git- und GitHub-Kurs arbeiten?<br>*Zum Beispiel ein Lebenslauf, der aus deinen Daten entsteht, eine eigene Website, eine Sammlung von Notizen oder ein Text, den du mit anderen schreibst. Eine grobe Idee reicht. Ich zeige im Kurs einige dieser Projekte als Beispiele.*"
+)
+```
+
+--- termin
+
+## Termine für die zwei Workshops
+
+Der Kurs hat zwei Online-Workshops von je zwei Stunden, jeweils am Abend auf Zoom. Für Übungen arbeiten wir in kleinen Gruppen.
+
+```{r}
+sd_question(
+  type   = "mc_multiple",
+  id     = "slots",
+  label  = "Es gibt zwei Workshops von je zwei Stunden. Kreuze mindestens zwei Termine an, die für dich gehen. Gern auch mehr.<br>*Ich wähle daraus die zwei Termine, an denen die meisten können. Passt dir keiner, kreuze nur «Keiner dieser Termine passt» an und schreib unten, wann es dir geht.*",
+  option = opts_slots
+)
+
+sd_question(
+  type  = "textarea",
+  id    = "slots_note",
+  label = "Wann passt es dir sonst?<br>*Freiwillig. Nur wenn keiner der Termine passt, ist dieses Feld nötig. Zum Beispiel Wochentage oder Tageszeiten, die gut gehen.*"
+)
+```
+
+--- einwilligung
+
+## Einwilligung
+
+```{r}
+sd_question(
+  type   = "mc",
+  id     = "consent",
+  label  = paste0(
+    "Ich bin einverstanden, dass ", organiser, " meine Antworten und meine E-Mail-Adresse nutzt, ",
+    "um diesen Kurs zu planen und durchzuführen und mich dazu zu kontaktieren. ",
+    "Die Umfrage läuft auf Posit Connect Cloud. Die Antworten werden in einer Datenbank bei Supabase in Zürich gespeichert. ",
+    "Sie werden an niemanden weitergegeben. ",
+    "Meine E-Mail-Adresse wird nur für diesen Kurs genutzt und spätestens ein Jahr nach dem Kurs gelöscht. ",
+    "Ohne E-Mail-Adresse und GitHub-Benutzername dürfen die Antworten später genutzt werden, zum Beispiel um den Kurs zu verbessern. ",
+    "Veröffentlicht werden höchstens zusammengefasste Ergebnisse, nie einzelne Antworten. ",
+    "Ich kann meine Einwilligung jederzeit per E-Mail an ", contact, " zurückziehen."
+  ),
+  option = c("Ja, ich bin einverstanden" = "yes")
+)
+```
+
+--- ende
+
+## Danke
+
+Deine Antworten sind gespeichert. Ich melde mich nach dem 30. Oktober 2026 mit den Terminen für die zwei Workshops. Du kannst das Fenster jetzt schliessen, mit dem Knopf unten oder direkt im Browser.
+
+```{r}
+sd_close()
+```
