@@ -8,7 +8,7 @@
 #   Rscript tests/clickthrough.R [url]
 #
 # Checks: every page loads without duplicate ids, the conditional text
-# fields appear only for their answers and block Next only while visible,
+# fields appear only for their answers, the "Andere" fields block Next only while visible, the AI level tool fields never block,
 # the email and username checks refuse bad input, and one full response
 # reaches the end page. Test answers use the address test@example.org.
 
@@ -102,6 +102,15 @@ pick("ai_tools", "other")
 check(shown("ai_tools_other"), "ai_tools_other shown for 'Andere'")
 check(blocked("werkzeuge"), "empty ai_tools_other blocks Next")
 set_text("ai_tools_other", "Mistral Le Chat Pro")
+check(!shown("retreat_tools_other"), "retreat_tools_other hidden at first")
+pick("retreat_tools", "wispr_flow")
+pick("retreat_tools", "none")
+check(blocked("werkzeuge"), "'Keines davon' plus a retreat tool blocks Next")
+pick("retreat_tools", "none")
+pick("retreat_tools", "other")
+check(shown("retreat_tools_other"), "retreat_tools_other shown for the other option")
+check(blocked("werkzeuge"), "empty retreat_tools_other blocks Next")
+set_text("retreat_tools_other", "MacWhisper")
 check(!shown("second_brain_tool"), "second_brain_tool hidden for 'Nein'")
 pick("second_brain", "building")
 check(shown("second_brain_tool"), "second_brain_tool shown for 'baue gerade auf'")
@@ -115,10 +124,7 @@ pick("ai_levels", "chat")
 pick("ai_levels", "skills")
 check(shown("ai_level_chat_tool") && shown("ai_level_skills_tool"), "tool fields shown for chosen levels")
 check(!shown("ai_level_context_tool") && !shown("ai_level_routines_tool"), "tool fields hidden for other levels")
-check(blocked("ki_stufen"), "empty tool fields block Next")
-set_text("ai_level_chat_tool", "Claude")
-set_text("ai_level_skills_tool", "Claude Skills")
-check(go_next("ki_stufen", "#erfahrung_next"), "ki_stufen -> erfahrung")
+check(go_next("ki_stufen", "#erfahrung_next"), "empty tool fields do not block: ki_stufen -> erfahrung")
 
 # Page erfahrung
 check(no_duplicate_ids(), "erfahrung: no duplicate ids")
@@ -142,16 +148,16 @@ check(go_next("ziele", "#termin_next"), "ziele -> termin (retreat_work optional)
 # Page termin
 check(no_duplicate_ids(), "termin: no duplicate ids")
 check(blocked("termin"), "no slot blocks Next")
-pick("slots", "2026-11-17_2000")
+pick("slots", "2026-11-17_0930")
 check(blocked("termin"), "one slot only blocks Next")
-pick("slots", "2026-11-17_2000")
+pick("slots", "2026-11-17_0930")
 pick("slots", "none")
 check(blocked("termin"), "'Keiner passt' alone with an empty note blocks Next")
 set_text("slots_note", "Testantwort: Montags ab 20 Uhr")
-pick("slots", "2026-11-17_2000")
+pick("slots", "2026-11-17_0930")
 check(blocked("termin"), "'Keiner passt' plus a slot blocks Next")
 pick("slots", "none")
-pick("slots", "2026-12-01_2000")
+pick("slots", "2026-12-01_0930")
 check(go_next("termin", "#einwilligung_next"), "two slots pass to einwilligung")
 
 # Page einwilligung
@@ -178,7 +184,7 @@ if (file.exists("preview_data.csv")) {
     r <- row[nrow(row), ]
     check(identical(as.character(r$consent), "yes"), "stored consent is yes")
     check(identical(as.character(r$github_username), "octocat"), "stored github_username")
-    check(grepl("2026-11-17_2000", r$slots) && grepl("2026-12-01_2000", r$slots), "both ticked slots stored")
+    check(grepl("2026-11-17_0930", r$slots) && grepl("2026-12-01_0930", r$slots), "both ticked slots stored")
     check(!any(c("ip_address", "browser") %in% names(d)), "no IP address or browser stored")
   }
 } else {

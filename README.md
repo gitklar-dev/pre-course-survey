@@ -6,18 +6,19 @@ This is the pre-course survey of gitklar, a Git and GitHub course offered by Lar
 
 ## What the survey asks
 
-The survey is in German, informal (du), and takes about 10 minutes. It has 15 required questions on seven pages and 3 optional ones (`second_brain_tool`, `retreat_work`, `slots_note`). Follow-up text fields (the "Andere" fields, one tool field per chosen AI level, the GitHub username) appear only for some answers and are required only while they are shown.
+The survey is in German, informal (du), and takes about 10 minutes. It has 16 required questions on seven pages and 8 optional ones (`second_brain_tool`, `retreat_work`, `slots_note` and the five `ai_level_<stufe>_tool` fields). Follow-up text fields (the "Andere" fields, the GitHub username) appear only for some answers and are required only while they are shown. The tool field per chosen AI level also appears only for its level, but it is always optional.
 
 | Page | Question id | Question | Source |
 |---|---|---|---|
 | ueber_dich | `email` | E-Mail-Adresse | ds4owd XLSForm `email` |
 | ueber_dich | `os`, `os_other` | Betriebssystem des Kurs-Laptops | agentsforsci `os`, plus "Ich weiss es nicht" |
 | werkzeuge | `ai_tools`, `ai_tools_other` | KI-Werkzeuge in Gebrauch | agentsforsci `ai_tools` (from ds4owd `llm_platforms`), shortened, plus Make/n8n/Zapier |
+| werkzeuge | `retreat_tools`, `retreat_tools_other` | Welche Werkzeuge aus dem AI Retreat installiert (Claude-App, Claude Code in der App oder im Terminal, ChatGPT-App, Codex-App oder Codex CLI, Wispr Flow, Typeless, Granola) | new |
 | werkzeuge | `writing_tools`, `writing_tools_other` | Werkzeuge für Texte und Notizen | new, replaces ds4owd `ide_used` and `note_taking_tool_specify` |
 | werkzeuge | `todo_place`, `todo_place_other` | Wo die TODOs heute stehen | new (journal 2026-10-19) |
 | werkzeuge | `second_brain`, `second_brain_tool` (optional) | Zweites Gehirn | new (journal 2026-10-19) |
 | ki_stufen | `ai_levels` | Welche der fünf Stufen der KI-Nutzung | new, from the AI Retreat deep-dive of 16 October 2026 |
-| ki_stufen | `ai_level_<stufe>_tool` (5 fields) | Werkzeug je gewählter Stufe | new |
+| ki_stufen | `ai_level_<stufe>_tool` (5 fields, optional) | Werkzeug je gewählter Stufe | new |
 | erfahrung | `prog_general` | Erfahrung mit Programmieren | ds4owd `prog_general` |
 | erfahrung | `cli_usage` | Nutzung des Terminals | ds4owd and agentsforsci `cli_usage`, reworded |
 | erfahrung | `git_experience` | Erfahrung mit Git | ds4owd `git_experience` |
@@ -38,13 +39,12 @@ No browser details and no IP addresses are stored (`capture-metadata: false`).
   2. Selbst entscheiden, offen arbeiten: Git und GitHub für deine Projekte
   3. Gemeinsam nachvollziehbar: Git und GitHub mit und ohne KI
 - **Contact address.** `lars@lse.de` in the welcome text and the consent, confirmed by Lars on 2026-10-22.
-- **Time slots (placeholders).** The course has two online sessions of two hours. Participants tick at least two slots that work for them (enforced in `app.R`), or only "Keiner dieser Termine passt" plus a note on other times. Lars picks the two slots that suit most people. Both sessions are over before 11 December 2026. All slots are Monday to Thursday, 20:00 to 22:00. They avoid RDC (19 and 20 November), the EnhanceR symposium (30 November) and SwissRN in Bellinzona (10 December). Lars confirms them:
-  - Dienstag, 17. November 2026
-  - Montag, 23. November 2026
-  - Donnerstag, 26. November 2026
-  - Dienstag, 1. Dezember 2026
-  - Donnerstag, 3. Dezember 2026
-  - Mittwoch, 9. Dezember 2026
+- **Time slots.** The course has two online sessions of two hours. Participants tick at least two slots that work for them (enforced in `app.R`), or only "Keiner dieser Termine passt" plus a note on other times. Lars picks the two slots that suit most people. Both sessions are over before 11 December 2026. The slots are daytime slots, chosen by Lars on 26 October 2026 against his calendars. They avoid RDC (19 and 20 November), the EnhanceR symposium (30 November), the Data stewardship symposium (9 December), SwissRN in Bellinzona (10 December) and Fridays:
+  - Dienstag, 17. November 2026, 9:30 bis 11:30 Uhr
+  - Donnerstag, 26. November 2026, 14:00 bis 16:00 Uhr
+  - Dienstag, 1. Dezember 2026, 9:30 bis 11:30 Uhr
+  - Mittwoch, 2. Dezember 2026, 9:30 bis 11:30 Uhr
+  - Donnerstag, 3. Dezember 2026, 14:00 bis 16:00 Uhr
 - **Database and hosting.** The survey stays in `mode: preview` until the steps below are done.
 
 ## Run the survey locally

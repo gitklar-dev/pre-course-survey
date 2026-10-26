@@ -36,6 +36,7 @@ server <- function(input, output, session) {
   sd_show_if(
     sd_value("os") == "other" ~ "os_other",
     "other" %in% sd_value("ai_tools") ~ "ai_tools_other",
+    "other" %in% sd_value("retreat_tools") ~ "retreat_tools_other",
     "other" %in% sd_value("writing_tools") ~ "writing_tools_other",
     "other" %in% sd_value("todo_place") ~ "todo_place_other",
     sd_value("second_brain") %in% c("yes", "building") ~ "second_brain_tool",
@@ -64,6 +65,8 @@ server <- function(input, output, session) {
 
     "none" %in% sd_value("ai_tools") & length(sd_value("ai_tools")) > 1 ~
       "KI-Werkzeuge: Bitte wähle entweder «Keine» oder die Werkzeuge, die du nutzt.",
+    "none" %in% sd_value("retreat_tools") & length(sd_value("retreat_tools")) > 1 ~
+      "Werkzeuge aus dem AI Retreat: Bitte wähle entweder «Keines davon» oder die Werkzeuge, die du installiert hast.",
     "none" %in% sd_value("ai_levels") & length(sd_value("ai_levels")) > 1 ~
       "Stufen: Bitte wähle entweder «Keine davon» oder die Stufen, die du nutzt.",
     "none" %in% sd_value("slots") & length(sd_value("slots")) > 1 ~

@@ -37,17 +37,14 @@ survey-settings:
     - os_other
     - ai_tools
     - ai_tools_other
+    - retreat_tools
+    - retreat_tools_other
     - writing_tools
     - writing_tools_other
     - todo_place
     - todo_place_other
     - second_brain
     - ai_levels
-    - ai_level_chat_tool
-    - ai_level_context_tool
-    - ai_level_connectors_tool
-    - ai_level_skills_tool
-    - ai_level_routines_tool
     - prog_general
     - cli_usage
     - git_experience
@@ -81,19 +78,18 @@ instructor   <- "Lars Schöbitz"
 contact      <- "lars@lse.de"                   # PLATZHALTER: course contact address, Lars confirms
 
 # Time slots for the two online sessions (Zoom, two hours each).
-# ALL SLOTS ARE PLATZHALTER. Lars confirms them against his calendars.
-# Both sessions must be over before 11 December 2026. Window mid November
-# to Wednesday 9 December 2026, Monday to Thursday, 20:00 to 22:00 only.
+# Both sessions must be over before 11 December 2026. Daytime slots,
+# chosen by Lars on 26 October 2026 against the ETH and Google calendars.
 # Avoided: RDC (19 and 20 November), EnhanceR symposium (Monday 30
-# November), SwissRN Bellinzona (Thursday 10 December).
+# November), Data stewardship symposium (Wednesday 9 December), SwissRN
+# Bellinzona (Thursday 10 December), Fridays.
 # Weekdays checked against the 2026 calendar.
 opts_slots <- c(
-  "Dienstag, 17. November 2026, 20:00 bis 22:00 Uhr"   = "2026-11-17_2000",
-  "Montag, 23. November 2026, 20:00 bis 22:00 Uhr"     = "2026-11-23_2000",
-  "Donnerstag, 26. November 2026, 20:00 bis 22:00 Uhr" = "2026-11-26_2000",
-  "Dienstag, 1. Dezember 2026, 20:00 bis 22:00 Uhr"    = "2026-12-01_2000",
-  "Donnerstag, 3. Dezember 2026, 20:00 bis 22:00 Uhr" = "2026-12-03_2000",
-  "Mittwoch, 9. Dezember 2026, 20:00 bis 22:00 Uhr"    = "2026-12-09_2000",
+  "Dienstag, 17. November 2026, 9:30 bis 11:30 Uhr"    = "2026-11-17_0930",
+  "Donnerstag, 26. November 2026, 14:00 bis 16:00 Uhr" = "2026-11-26_1400",
+  "Dienstag, 1. Dezember 2026, 9:30 bis 11:30 Uhr"     = "2026-12-01_0930",
+  "Mittwoch, 2. Dezember 2026, 9:30 bis 11:30 Uhr"     = "2026-12-02_0930",
+  "Donnerstag, 3. Dezember 2026, 14:00 bis 16:00 Uhr"  = "2026-12-03_1400",
   "Keiner dieser Termine passt"                        = "none"
 )
 
@@ -166,6 +162,7 @@ sd_question(
     "ChatGPT (OpenAI)"                                  = "chatgpt",
     "Claude (Anthropic)"                                = "claude",
     "Claude Code (Anthropic)"                           = "claude_code",
+    "Codex (OpenAI)"                                    = "codex",
     "Microsoft Copilot (in Windows, Edge, Teams oder Microsoft 365)" = "copilot_365",
     "GitHub Copilot"                                    = "copilot_ide",
     "Le Chat (Mistral)"                                 = "le_chat",
@@ -187,6 +184,31 @@ sd_question(
   type  = "text",
   id    = "ai_tools_other",
   label = "Welche anderen KI-Werkzeuge?"
+)
+
+sd_question(
+  type   = "mc_multiple",
+  id     = "retreat_tools",
+  label  = "Welche Werkzeuge aus dem AI Retreat hast du installiert? (mehrere Antworten möglich)",
+  option = c(
+    "Claude als App auf dem Computer"                    = "claude_desktop",
+    "Claude Code in der Claude-App (Bereich «Code»)"     = "claude_code_app",
+    "Claude Code im Terminal"                            = "claude_code_terminal",
+    "ChatGPT als App auf dem Computer"                   = "chatgpt_desktop",
+    "Codex als App auf dem Computer (Codex-App von OpenAI)" = "codex_app",
+    "Codex im Terminal (Codex CLI)"                      = "codex_cli",
+    "Wispr Flow (Diktieren)"                             = "wispr_flow",
+    "Typeless (Diktieren)"                               = "typeless",
+    "Granola (Gespräche mitschreiben)"                   = "granola",
+    "Ein anderes Werkzeug zum Diktieren oder Transkribieren" = "other",
+    "Keines davon"                                       = "none"
+  )
+)
+
+sd_question(
+  type  = "text",
+  id    = "retreat_tools_other",
+  label = "Welches andere Werkzeug zum Diktieren oder Transkribieren?"
 )
 
 sd_question(
@@ -278,15 +300,15 @@ sd_question(
 )
 
 sd_question(type = "text", id = "ai_level_chat_tool",
-  label = "Stufe 1, Chat: Mit welchem Werkzeug?")
+  label = "Stufe 1, Chat: Mit welchem Werkzeug? (freiwillig)")
 sd_question(type = "text", id = "ai_level_context_tool",
-  label = "Stufe 2, Kontext: Mit welchem Werkzeug, und welche Art von Dateien gibst du mit?")
+  label = "Stufe 2, Kontext: Mit welchem Werkzeug, und welche Art von Dateien gibst du mit? (freiwillig)")
 sd_question(type = "text", id = "ai_level_connectors_tool",
-  label = "Stufe 3, Verbindungen: Mit welchem Werkzeug, und mit welchen Programmen verbunden?")
+  label = "Stufe 3, Verbindungen: Mit welchem Werkzeug, und mit welchen Programmen verbunden? (freiwillig)")
 sd_question(type = "text", id = "ai_level_skills_tool",
-  label = "Stufe 4, Skills: Mit welchem Werkzeug?")
+  label = "Stufe 4, Skills: Mit welchem Werkzeug? (freiwillig)")
 sd_question(type = "text", id = "ai_level_routines_tool",
-  label = "Stufe 5, Routinen: Mit welchem Werkzeug?")
+  label = "Stufe 5, Routinen: Mit welchem Werkzeug? (freiwillig)")
 ```
 
 --- erfahrung
