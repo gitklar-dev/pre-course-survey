@@ -50,6 +50,7 @@ survey-settings:
     - git_experience
     - github_account
     - github_username
+    - github_username_new
     - learning_goals
     - use_case
     - slots
@@ -368,6 +369,27 @@ sd_question(
   id    = "github_username",
   label = "Dein GitHub-Benutzername<br>*Ohne das @. Du findest ihn oben rechts auf github.com, wenn du angemeldet bist.*"
 )
+
+# Shown for «Nein» and «Ich weiss es nicht»: the account is created during
+# the survey, so every respondent leaves a username behind.
+sd_question(
+  type  = "text",
+  id    = "github_username_new",
+  label = paste0(
+    "**Erstelle jetzt dein GitHub-Konto und trage den Benutzernamen hier ein.**<br>",
+    "*Für den Kurs lade ich dich auf GitHub ein, dafür brauche ich deinen Benutzernamen. Das dauert etwa fünf Minuten. ",
+    "Unsicher, ob du schon ein Konto hast? Versuche zuerst die Anmeldung auf ",
+    "<a href='https://github.com/login' target='_blank'>github.com/login</a>. ",
+    "Klappt sie, trage den Namen ein, der dort oben rechts steht.*<br>",
+    "1. Öffne <a href='https://github.com/signup' target='_blank'>github.com/signup</a> in einem neuen Tab.<br>",
+    "2. Gib eine E-Mail-Adresse an, die du behalten wirst, und wähle ein Passwort.<br>",
+    "3. Wähle einen Benutzernamen aus Buchstaben, Ziffern und Bindestrichen, ohne Leerzeichen. ",
+    "Er ist öffentlich sichtbar, zum Beispiel in der Adresse deiner Projekte. Viele nehmen vorname-nachname.<br>",
+    "4. Bestätige deine E-Mail-Adresse mit dem Code, den GitHub dir schickt.<br>",
+    "5. Komm hierher zurück und trage den Benutzernamen unten ein, ohne das @.<br>",
+    "*Geht das gerade nicht? Lass dieses Fenster offen oder komm später im selben Browser zurück. Deine bisherigen Antworten bleiben gespeichert.*"
+  )
+)
 ```
 
 --- ziele
@@ -398,7 +420,7 @@ sd_question(
 
 ## Termine für die zwei Workshops
 
-Der Kurs hat zwei Online-Workshops von je zwei Stunden, jeweils am Abend auf Zoom. Für Übungen arbeiten wir in kleinen Gruppen.
+Der Kurs hat zwei Workshops von je zwei Stunden, jeweils online auf Zoom. Für Übungen arbeiten wir in kleinen Gruppen.
 
 ```{r}
 sd_question(

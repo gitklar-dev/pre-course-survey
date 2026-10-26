@@ -9,7 +9,8 @@
 #
 # Checks: every page loads without duplicate ids, the conditional text
 # fields appear only for their answers, the "Andere" fields block Next only while visible, the AI level tool fields never block,
-# the email and username checks refuse bad input, and one full response
+# the email and username checks refuse bad input (also for the username of
+# an account created during the survey), and one full response
 # reaches the end page. Test answers use the address test@example.org.
 
 library(chromote)
@@ -134,6 +135,17 @@ pick("git_experience", "never")
 check(!shown("github_username"), "github_username hidden at first")
 pick("github_account", "yes")
 check(shown("github_username"), "github_username shown for 'Ja'")
+check(!shown("github_username_new"), "github_username_new hidden for 'Ja'")
+pick("github_account", "no")
+check(shown("github_username_new"), "github_username_new shown for 'Nein'")
+check(!shown("github_username"), "github_username hidden for 'Nein'")
+check(blocked("erfahrung"), "empty new username blocks Next")
+set_text("github_username_new", "@bad name")
+check(blocked("erfahrung"), "bad new username blocks Next")
+pick("github_account", "dont_know")
+check(shown("github_username_new"), "github_username_new shown for 'Ich weiss es nicht'")
+pick("github_account", "yes")
+check(!shown("github_username_new"), "github_username_new hidden again for 'Ja'")
 set_text("github_username", "@bad name")
 check(blocked("erfahrung"), "bad GitHub username blocks Next")
 set_text("github_username", "octocat")

@@ -45,7 +45,8 @@ server <- function(input, output, session) {
     "connectors" %in% sd_value("ai_levels") ~ "ai_level_connectors_tool",
     "skills" %in% sd_value("ai_levels") ~ "ai_level_skills_tool",
     "routines" %in% sd_value("ai_levels") ~ "ai_level_routines_tool",
-    sd_value("github_account") == "yes" ~ "github_username"
+    sd_value("github_account") == "yes" ~ "github_username",
+    sd_value("github_account") %in% c("no", "dont_know") ~ "github_username_new"
   )
 
   # Checks when the participant clicks Next
@@ -62,6 +63,14 @@ server <- function(input, output, session) {
         trimws(sd_value("github_username", as_numeric = FALSE))
       ) ~
       "Bitte gib deinen GitHub-Benutzernamen ohne das @ ein. Er besteht aus Buchstaben, Ziffern und Bindestrichen.",
+
+    # Same check for the username of an account created during the survey
+    isTRUE(sd_value("github_account") %in% c("no", "dont_know")) &
+      !grepl(
+        "^[A-Za-z0-9-]{1,39}$",
+        trimws(sd_value("github_username_new", as_numeric = FALSE))
+      ) ~
+      "Bitte trage den Benutzernamen deines neuen GitHub-Kontos ein, ohne das @. Er besteht aus Buchstaben, Ziffern und Bindestrichen.",
 
     "none" %in% sd_value("ai_tools") & length(sd_value("ai_tools")) > 1 ~
       "KI-Werkzeuge: Bitte wähle entweder «Keine» oder die Werkzeuge, die du nutzt.",

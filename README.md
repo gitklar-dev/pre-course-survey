@@ -2,11 +2,11 @@
 
 Participants of AI Retreats join the organisation `gitklar-airetreat`, which can hold participants of several retreats.
 
-This is the pre-course survey of gitklar, a Git and GitHub course offered by Lars Schöbitz GmbH. It is built with [surveydown](https://surveydown.org) (R, Quarto and Shiny) after the pre-course survey in `agentsforsci-dev/pre-course-survey`. Answers are meant to go to a Supabase database in Zurich, and the survey is meant to run on Posit Connect Cloud. For now the survey runs in preview mode only, until the database is set up (see below).
+This is the pre-course survey of gitklar, a Git and GitHub course offered by Lars Schöbitz GmbH. It is built with [surveydown](https://surveydown.org) (R, Quarto and Shiny) after the pre-course survey in `agentsforsci-dev/pre-course-survey`. Answers go to a Supabase database in Zurich, and the survey runs on Posit Connect Cloud at <https://larnsce-gitklar-airetreat-umfrage.share.connect.posit.cloud/>, live since 22 October 2026 (setup and redeploy steps below).
 
 ## What the survey asks
 
-The survey is in German, informal (du), and takes about 10 minutes. It has 16 required questions on seven pages and 8 optional ones (`second_brain_tool`, `retreat_work`, `slots_note` and the five `ai_level_<stufe>_tool` fields). Follow-up text fields (the "Andere" fields, the GitHub username) appear only for some answers and are required only while they are shown. The tool field per chosen AI level also appears only for its level, but it is always optional.
+The survey is in German, informal (du), and takes about 10 minutes. It has 16 required questions on seven pages and 8 optional ones (`second_brain_tool`, `retreat_work`, `slots_note` and the five `ai_level_<stufe>_tool` fields). Follow-up text fields (the "Andere" fields, the GitHub username) appear only for some answers and are required only while they are shown. The tool field per chosen AI level also appears only for its level, but it is always optional. Respondents without a GitHub account, or unsure whether they have one, are asked to create the account during the survey and enter the new username (`github_username_new`), so every response carries a username.
 
 | Page | Question id | Question | Source |
 |---|---|---|---|
@@ -24,6 +24,7 @@ The survey is in German, informal (du), and takes about 10 minutes. It has 16 re
 | erfahrung | `git_experience` | Erfahrung mit Git | ds4owd `git_experience` |
 | erfahrung | `github_account` | GitHub-Konto vorhanden | new |
 | erfahrung | `github_username` | GitHub-Benutzername, only if there is an account | ds4owd and agentsforsci `github_username` |
+| erfahrung | `github_username_new` | Benutzername nach dem Erstellen des Kontos, shown for «Nein» and «Ich weiss es nicht» with the steps to create the account during the survey, required while shown | new (2026-10-26) |
 | ziele | `retreat_work` (optional) | Was am AI Retreat gemacht und gelernt, Miro-Texte willkommen | new |
 | ziele | `learning_goals` | Was du nach dem Kurs wissen oder können willst | ds4owd and agentsforsci `learning_goals` |
 | ziele | `use_case` | Eigenes Projekt für den Kurs | new, loosely after ds4owd `data_availability` |
@@ -32,7 +33,7 @@ The survey is in German, informal (du), and takes about 10 minutes. It has 16 re
 
 No browser details and no IP addresses are stored (`capture-metadata: false`).
 
-## Open points before the survey goes out
+## Decisions taken before the survey went out
 
 - **Course title.** `survey.qmd` uses the working title "Git und GitHub: Einführungskurs". Three options are open:
   1. Never Commit Alone: Git und GitHub mit KI, ohne KI und mit anderen
@@ -45,7 +46,7 @@ No browser details and no IP addresses are stored (`capture-metadata: false`).
   - Dienstag, 1. Dezember 2026, 9:30 bis 11:30 Uhr
   - Mittwoch, 2. Dezember 2026, 9:30 bis 11:30 Uhr
   - Donnerstag, 3. Dezember 2026, 14:00 bis 16:00 Uhr
-- **Database and hosting.** The survey stays in `mode: preview` until the steps below are done.
+- **Database and hosting.** Done on 22 October 2026: `mode: database`, Supabase project `gitklar` of Lars Schöbitz GmbH in Zurich, table `gitklar_airetreat_2026_10`, hosted on Posit Connect Cloud. The steps below record how, and step 7 is the redeploy.
 
 ## Run the survey locally
 
@@ -68,11 +69,11 @@ With the app running, from this folder:
 Rscript tests/clickthrough.R
 ```
 
-The script uses chromote (headless Chrome). It checks that every page loads without duplicate ids. It also checks that the follow-up fields appear only for their answers and block Next only while visible. Bad email addresses, bad GitHub usernames and "none" combined with other answers are refused. One full response reaches the end page and lands in `preview_data.csv` without IP address or browser details.
+The script uses chromote (headless Chrome). It checks that every page loads without duplicate ids. It also checks that the follow-up fields appear only for their answers and block Next only while visible. Bad email addresses, bad GitHub usernames (existing or newly created) and "none" combined with other answers are refused. One full response reaches the end page and lands in `preview_data.csv` without IP address or browser details.
 
 ## Database and deployment: steps for Lars
 
-These steps need Lars's own accounts. Nothing here has been created yet.
+These steps need Lars's own accounts. They were done on 22 October 2026 and stay here as the record. Steps 7 and 8 are the procedure for every later change: commit on `dev`, redeploy, check the live page, then open the pull request to `main`. A redeploy restarts the app and cuts sessions in progress, so check the table for recent unfinished rows first.
 
 1. **Supabase project.** Create a new Supabase project for Lars Schöbitz GmbH in the region Central EU (Zurich), `eu-central-2`. Keep the database password.
 2. **Connection values.** In the project, open Connect, then the Direct tab, and copy the values of the **session pooler** (pooler host, port **5432**). Do not use the transaction pooler (port 6543), it fails with RPostgres.
