@@ -6,7 +6,7 @@ This is the pre-course survey of gitklar, a Git and GitHub course offered by Lar
 
 ## What the survey asks
 
-The survey is in German, informal (du), and takes about 10 minutes. It has 16 required questions on seven pages and 8 optional ones (`second_brain_tool`, `retreat_work`, `slots_note` and the five `ai_level_<stufe>_tool` fields). Follow-up text fields (the "Andere" fields, the GitHub username) appear only for some answers and are required only while they are shown. The tool field per chosen AI level also appears only for its level, but it is always optional.
+The survey is in German, informal (du), and takes about 10 minutes. It has 16 required questions on seven pages and 8 optional ones (`second_brain_tool`, `retreat_work`, `slots_note` and the five `ai_level_<stufe>_tool` fields). Follow-up text fields (the "Andere" fields, the GitHub username) appear only for some answers and are required only while they are shown. The tool field per chosen AI level also appears only for its level, but it is always optional. Respondents without a GitHub account, or unsure whether they have one, are asked to create the account during the survey and enter the new username (`github_username_new`), so every response carries a username.
 
 | Page | Question id | Question | Source |
 |---|---|---|---|
@@ -24,6 +24,7 @@ The survey is in German, informal (du), and takes about 10 minutes. It has 16 re
 | erfahrung | `git_experience` | Erfahrung mit Git | ds4owd `git_experience` |
 | erfahrung | `github_account` | GitHub-Konto vorhanden | new |
 | erfahrung | `github_username` | GitHub-Benutzername, only if there is an account | ds4owd and agentsforsci `github_username` |
+| erfahrung | `github_username_new` | Benutzername nach dem Erstellen des Kontos, shown for «Nein» and «Ich weiss es nicht» with the steps to create the account during the survey, required while shown | new (2026-10-26) |
 | ziele | `retreat_work` (optional) | Was am AI Retreat gemacht und gelernt, Miro-Texte willkommen | new |
 | ziele | `learning_goals` | Was du nach dem Kurs wissen oder können willst | ds4owd and agentsforsci `learning_goals` |
 | ziele | `use_case` | Eigenes Projekt für den Kurs | new, loosely after ds4owd `data_availability` |
