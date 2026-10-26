@@ -420,7 +420,7 @@ sd_question(
 
 ## Termine für die zwei Workshops
 
-Der Kurs hat zwei Online-Workshops von je zwei Stunden, jeweils am Abend auf Zoom. Für Übungen arbeiten wir in kleinen Gruppen.
+Der Kurs hat zwei Workshops von je zwei Stunden, jeweils online auf Zoom. Für Übungen arbeiten wir in kleinen Gruppen.
 
 ```{r}
 sd_question(
