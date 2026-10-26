@@ -19,3 +19,6 @@ local_data.csv
 
 # deployment records
 rsconnect/
+
+/.quarto/
+**/*.quarto_ipynb
