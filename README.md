@@ -1,6 +1,6 @@
 # Pre-course survey: gitklar
 
-Participants of AI Retreats join the organisation `gitklar-airetreat`, which can hold participants of several retreats.
+Participants join the organisation `gitklar`, which holds the course website and every participant across cohorts; the AI Retreat group is the first cohort.
 
 This is the pre-course survey of gitklar, a Git and GitHub course offered by Lars Schöbitz GmbH. It is built with [surveydown](https://surveydown.org) (R, Quarto and Shiny) after the pre-course survey in `agentsforsci-dev/pre-course-survey`. Answers go to a Supabase database in Zurich, and the survey runs on Posit Connect Cloud at <https://larnsce-gitklar-airetreat-umfrage.share.connect.posit.cloud/>, live since 22 October 2026 (setup and redeploy steps below).
 

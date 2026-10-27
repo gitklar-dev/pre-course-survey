@@ -4,7 +4,7 @@
 # and listed in _survey/settings.yml after the first render.
 #
 # Built after agentsforsci-dev/pre-course-survey (2026-10-22).
-# Course gitklar, participant org gitklar-airetreat (AI Retreat participants).
+# Course gitklar, course org gitklar (AI Retreat participants are the first cohort).
 
 theme-settings:
   theme: [litera, custom.scss]
@@ -71,7 +71,7 @@ library(surveydown)
 
 # Course values. Edit these for the next survey round.
 course_name  <- "gitklar"
-group        <- "airetreat"                     # participant org gitklar-airetreat, table gitklar_airetreat_2026_10
+group        <- "airetreat"                     # first cohort, table gitklar_airetreat_2026_10
 course_title <- "Git und GitHub: Einführungskurs" # working title, options in README
 survey_due   <- "Freitag, 30. Oktober 2026"
 organiser    <- "Lars Schöbitz GmbH"

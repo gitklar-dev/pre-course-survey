@@ -1,4 +1,4 @@
-# Pre-course survey of gitklar for AI Retreat participants (participant org gitklar-airetreat).
+# Pre-course survey of gitklar for AI Retreat participants (course org gitklar).
 # Built after agentsforsci-dev/pre-course-survey.
 
 library(surveydown)
